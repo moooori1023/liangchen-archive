@@ -245,4 +245,96 @@
 
         .item-1 { grid-column: 2 / 7; height: 560px; }
         .item-2 { grid-column: 8 / 12; height: 340px; margin-top: 90px; }
-        .item-
+        .item-3 { grid-column: 4 / 9; height: 480px; margin-top: 40px; }
+
+        /* 手机端适配 */
+        @media (max-width: 768px) {
+            nav { padding: 1.2rem 1.5rem; }
+            .nav-links { gap: 1rem; font-size: 0.7rem; }
+            .profile-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                margin: 3rem auto 5rem;
+            }
+            .profile-photo-box { max-width: 240px; }
+            .gallery-container { padding: 1rem 1.5rem 5rem; }
+            .item-1, .item-2, .item-3 { grid-column: 1 / 13; margin-top: 0; height: 320px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 隐藏的 SVG 液态金属滤镜定义 -->
+    <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+        <defs>
+            <filter id="liquid-metal" x="-10%" y="-10%" width="120%" height="120%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.015 0.04" numOctaves="2" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- 顶部导航 -->
+    <nav>
+        <div class="nav-logo">LIANG CHEN</div>
+        <div class="nav-links">
+            <a href="#index">INDEX</a>
+            <a href="#develop">DEVELOP</a>
+            <a href="#slice">SLICE</a>
+            <a href="#shell">SHELL</a>
+            <a href="#tactile">TACTILE</a>
+        </div>
+    </nav>
+
+    <!-- 首屏大标题 -->
+    <section class="hero">
+        <div class="hero-title">LIANG CHEN</div>
+    </section>
+
+    <!-- 个人照片与信息区 -->
+    <section class="profile-section" id="about">
+        <div>
+            <div class="profile-photo-box">
+                <!-- 把你的个人照片命名为 me.jpg 上传到 GitHub 根目录即可自动显示 -->
+                <img src="me.jpg" alt="Liang Chen Portrait" onerror="this.style.opacity='0'">
+            </div>
+            <div class="photo-caption">
+                <span>FIG. 00 — PORTRAIT</span>
+                <span>SHANGHAI / UK</span>
+            </div>
+        </div>
+
+        <div class="profile-info">
+            <div class="profile-tag">
+                <span>VISUAL PLANNER & CREATIVE COORDINATOR</span>
+                <span>ARCHIVE 2021—2026</span>
+            </div>
+
+            <p class="zh-editorial">
+                梁晨，拥有英国萨塞克斯大学 <span class="en-inline">Digital Media</span> 硕士背景的视觉企划与创意统筹。专注于品牌视觉从 <span class="en-inline">0</span> 到 <span class="en-inline">1</span> 的体系搭建与线下空间策展，擅长将商业逻辑转化为克制而具人文质感的视觉秩序。
+            </p>
+
+            <p class="zh-editorial">
+                跳出传统执行框架，熟练结合 <span class="en-inline">AI-Native</span> 创意工作流与数字建档思维。曾主导 <span class="en-inline">BYMB</span>、<span class="en-inline">ShanghaiWOW</span> 等生活方式矩阵视觉升级，以及天安千树、西岸中寰等城市级线下市集全案视觉落地。
+            </p>
+
+            <p class="profile-en">
+                Visual Planner & Creative Coordinator with an MA in Digital Media (University of Sussex). Specializing in 0-1 brand visual systems, offline spatial curation, and AI-assisted workflows. Bridging commercial strategy with independent aesthetics.
+            </p>
+
+            <div class="profile-contact">
+                <a href="mailto:cl_713@163.com">EMAIL: CL_713@163.COM</a>
+                <span>WECHAT: ILA1023</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品瀑布流占位区 -->
+    <section class="gallery-container" id="index">
+        <div class="img-placeholder item-1"></div>
+        <div class="img-placeholder item-2"></div>
+        <div class="img-placeholder item-3"></div>
+    </section>
+
+</body>
+</html>
