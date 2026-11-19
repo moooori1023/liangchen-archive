@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIANG CHEN | Visual Planner</title>
+    <!-- 引入思源宋体 (Noto Serif SC 作为 Web Font 替代) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ================= 基础视觉规范 ================= */
+        :root {
+            --bg-color: #f4f4f2; /* 纸质冷灰白 */
+            --text-color: #111111;
+            --accent-chrome: #a8a8a9; /* 金属灰 */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            /* 英文默认使用 Helvetica */
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+            overflow-x: hidden;
+            cursor: crosshair; /* 更有工业标本感的鼠标指针 */
+        }
+
+        /* 中文专属类 */
+        .zh {
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        /* ================= 导航栏 (图1的极简索引感) ================= */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            mix-blend-mode: difference; /* 在图片上方时产生颜色反转 */
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-chrome);
+            text-shadow: 0 0 5px rgba(168, 168, 169, 0.8); /* 模拟金属发光 */
+        }
+
+        /* ================= 首屏视觉 (Hero Section) ================= */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 4rem;
+        }
+
+        .hero-title {
+            font-size: 12vw;
+            font-weight: 900;
+            letter-spacing: -0.04em; /* 极其紧凑的字距，带来压迫感 */
+            line-height: 0.8;
+            text-transform: uppercase;
+            position: relative;
+            /* 悬停时的畸变与金属反差效 */
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .hero-title:hover {
+            transform: skewX(-10deg);
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text-color);
+            text-shadow: 4px 4px 0px var(--accent-chrome); /* Y2K错位感 */
+        }
+
+        .hero-subtitle {
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        /* ================= 瀑布流容器预览 (后续放图用) ================= */
+        .gallery-container {
+            padding: 4rem;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+
+        /* 占位色块，模拟图片 */
+        .img-placeholder {
+            background: #dcdcdc;
+            height: 400px;
+            border: 1px solid #ccc;
+            transition: filter 0.3s ease;
+        }
+        
+        .img-placeholder:hover {
+            filter: contrast(120%) saturate(0) invert(10%); /* 模拟液态/底片痛感交互 */
+        }
+
+        .item-1 { grid-column: 2 / 7; height: 600px; }
+        .item-2 { grid-column: 8 / 11; height: 350px; margin-top: 100px;}
+        .item-3 { grid-column: 4 / 9; height: 500px; margin-top: 50px; }
+
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航 -->
+    <nav>
+        <div class="nav-logo">Liang Chen</div>
+        <div class="nav-links">
+            <a href="#index">INDEX</a>
+            <a href="#develop">DEVELOP</a>
+            <a href="#slice">SLICE</a>
+            <a href="#shell">SHELL</a>
+            <a href="#tactile">TACTILE</a>
+        </div>
+    </nav>
+
+    <!-- 首屏信息 -->
+    <section class="hero">
+        <div class="hero-title">LIANG CHEN</div>
+        <div class="hero-subtitle zh">
+            兼具人文思辨与数字媒介技术的前沿视觉企划。<br>
+            游走于商业逻辑与独立审美之间，构建反算法同质化的纯粹视觉体验。
+        </div>
+    </section>
+
+    <!-- 图片瀑布流占位区 -->
+    <section class="gallery-container">
+        <!-- 之后我们会把真实图片放进这里 -->
+        <div class="img-placeholder item-1"></div>
+        <div class="img-placeholder item-2"></div>
+        <div class="img-placeholder item-3"></div>
+    </section>
+
+    <script>
+        // 这里留给后续我们写 ScrollReveal 滚动浮现效果，或者 Matter.js 的物理交互效果
+        console.log("Welcome to Liang Chen's Digital Archive.");
+    </script>
+</body>
+</html>
