@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LIANG CHEN | Visual Planner</title>
-    <!-- 引入思源宋体 (Noto Serif SC 作为 Web Font 替代) -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- 引入思源宋体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
         /* ================= 基础视觉规范 ================= */
         :root {
-            --bg-color: #f4f4f2; /* 纸质冷灰白 */
-            --text-color: #111111;
-            --accent-chrome: #a8a8a9; /* 金属灰 */
+            --bg-color: #f4f4f2;
+            --text-black: #000000;
         }
 
         * {
@@ -23,156 +22,227 @@
 
         body {
             background-color: var(--bg-color);
-            color: var(--text-color);
-            /* 英文默认使用 Helvetica */
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+            color: var(--text-black);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             overflow-x: hidden;
-            cursor: crosshair; /* 更有工业标本感的鼠标指针 */
+            cursor: crosshair;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* 中文专属类 */
-        .zh {
+        /* 参考 032c 的紧凑纯黑中文排版 */
+        .zh-editorial {
             font-family: 'Noto Serif SC', serif;
-            font-weight: 300;
-            letter-spacing: 0.05em;
+            font-size: 13px;
+            line-height: 1.6;
+            letter-spacing: 0.01em;
+            color: #000000;
+            font-weight: 400;
         }
 
-        /* ================= 导航栏 (图1的极简索引感) ================= */
+        /* 中文段落中混排的加粗英文 */
+        .en-inline {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-weight: 700;
+            font-size: 12.5px;
+            letter-spacing: -0.01em;
+            color: #000000;
+        }
+
+        /* ================= 顶部导航栏 ================= */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 2rem 4rem;
+            padding: 1.8rem 3.5rem;
             display: flex;
             justify-content: space-between;
-            mix-blend-mode: difference; /* 在图片上方时产生颜色反转 */
+            align-items: center;
             z-index: 100;
+            background: linear-gradient(to bottom, rgba(244,244,242,0.92), rgba(244,244,242,0));
         }
 
         .nav-logo {
-            font-size: 1rem;
+            font-size: 0.85rem;
             font-weight: 700;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
+            color: #000000;
         }
 
         .nav-links {
             display: flex;
-            gap: 3rem;
-            font-size: 0.85rem;
+            gap: 2.5rem;
+            font-size: 0.78rem;
             font-weight: 700;
+            letter-spacing: 0.04em;
         }
 
         .nav-links a {
-            color: var(--text-color);
+            color: #000000;
             text-decoration: none;
             text-transform: uppercase;
-            position: relative;
-            transition: color 0.3s ease;
+            transition: opacity 0.2s ease;
         }
 
         .nav-links a:hover {
-            color: var(--accent-chrome);
-            text-shadow: 0 0 5px rgba(168, 168, 169, 0.8); /* 模拟金属发光 */
+            opacity: 0.45;
         }
 
-        /* ================= 首屏视觉 (Hero Section) ================= */
+        /* ================= 首屏大标题 (液态金属交互) ================= */
         .hero {
-            height: 100vh;
+            padding: 16vh 3.5rem 6vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            padding: 0 4rem;
         }
 
         .hero-title {
-            font-size: 12vw;
+            font-size: 11.5vw;
             font-weight: 900;
-            letter-spacing: -0.04em; /* 极其紧凑的字距，带来压迫感 */
-            line-height: 0.8;
+            letter-spacing: -0.045em;
+            line-height: 0.85;
             text-transform: uppercase;
+            color: #000000;
+            user-select: none;
+            transition: transform 0.35s ease, filter 0.35s ease;
             position: relative;
-            /* 悬停时的畸变与金属反差效 */
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
+        /* 悬停时的液态镍金属质感 */
         .hero-title:hover {
-            transform: skewX(-10deg);
+            background: linear-gradient(
+                180deg,
+                #ffffff 0%,
+                #d8d8dc 16%,
+                #4a4a52 38%,
+                #0a0a0c 49%,
+                #b8b8c2 55%,
+                #ffffff 74%,
+                #3a3a42 90%,
+                #000000 100%
+            );
+            background-size: 100% 220%;
+            -webkit-background-clip: text;
+            background-clip: text;
             color: transparent;
-            -webkit-text-stroke: 1px var(--text-color);
-            text-shadow: 4px 4px 0px var(--accent-chrome); /* Y2K错位感 */
+            /* 叠加 SVG 液态扭曲 + 金属投影 */
+            filter: url(#liquid-metal) drop-shadow(0px 6px 10px rgba(0, 0, 0, 0.28));
+            animation: chromeFlow 2.2s ease-in-out infinite alternate;
+            transform: scale(1.015);
         }
 
-        .hero-subtitle {
-            margin-top: 2rem;
-            font-size: 1.1rem;
-            max-width: 600px;
-            text-align: center;
-            line-height: 1.8;
-            color: #444;
+        @keyframes chromeFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 100%; }
         }
 
-        /* ================= 瀑布流容器预览 (后续放图用) ================= */
+        /* ================= 首页个人照片与信息区 ================= */
+        .profile-section {
+            max-width: 920px;
+            margin: 5rem auto 7rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 3.5rem;
+            align-items: start;
+        }
+
+        .profile-photo-box {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            background-color: #e2e2df;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: filter 0.4s ease;
+        }
+
+        .profile-photo-box img:hover {
+            filter: contrast(112%) grayscale(20%);
+        }
+
+        /* 没传照片时的极简占位提示 */
+        .photo-caption {
+            margin-top: 0.6rem;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: #000000;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .profile-tag {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            border-bottom: 1px solid #000000;
+            padding-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .profile-en {
+            font-size: 12px;
+            line-height: 1.48;
+            color: #000000;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+
+        .profile-contact {
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(0,0,0,0.15);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        .profile-contact a {
+            color: #000000;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        .profile-contact a:hover {
+            border-bottom: 1px solid #000000;
+        }
+
+        /* ================= 瀑布流作品预览区 ================= */
         .gallery-container {
-            padding: 4rem;
+            padding: 2rem 3.5rem 8rem;
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
+            gap: 24px;
         }
 
-        /* 占位色块，模拟图片 */
         .img-placeholder {
-            background: #dcdcdc;
-            height: 400px;
-            border: 1px solid #ccc;
+            background: #e2e2df;
             transition: filter 0.3s ease;
         }
-        
+
         .img-placeholder:hover {
-            filter: contrast(120%) saturate(0) invert(10%); /* 模拟液态/底片痛感交互 */
+            filter: contrast(115%) saturate(0.8);
         }
 
-        .item-1 { grid-column: 2 / 7; height: 600px; }
-        .item-2 { grid-column: 8 / 11; height: 350px; margin-top: 100px;}
-        .item-3 { grid-column: 4 / 9; height: 500px; margin-top: 50px; }
-
-    </style>
-</head>
-<body>
-
-    <!-- 顶部导航 -->
-    <nav>
-        <div class="nav-logo">Liang Chen</div>
-        <div class="nav-links">
-            <a href="#index">INDEX</a>
-            <a href="#develop">DEVELOP</a>
-            <a href="#slice">SLICE</a>
-            <a href="#shell">SHELL</a>
-            <a href="#tactile">TACTILE</a>
-        </div>
-    </nav>
-
-    <!-- 首屏信息 -->
-    <section class="hero">
-        <div class="hero-title">LIANG CHEN</div>
-        <div class="hero-subtitle zh">
-            兼具人文思辨与数字媒介技术的前沿视觉企划。<br>
-            游走于商业逻辑与独立审美之间，构建反算法同质化的纯粹视觉体验。
-        </div>
-    </section>
-
-    <!-- 图片瀑布流占位区 -->
-    <section class="gallery-container">
-        <!-- 之后我们会把真实图片放进这里 -->
-        <div class="img-placeholder item-1"></div>
-        <div class="img-placeholder item-2"></div>
-        <div class="img-placeholder item-3"></div>
-    </section>
-
-    <script>
-        // 这里留给后续我们写 ScrollReveal 滚动浮现效果，或者 Matter.js 的物理交互效果
-        console.log("Welcome to Liang Chen's Digital Archive.");
-    </script>
-</body>
-</html>
+        .item-1 { grid-column: 2 / 7; height: 560px; }
+        .item-2 { grid-column: 8 / 12; height: 340px; margin-top: 90px; }
+        .item-
