@@ -1,0 +1,9 @@
+// Cursor-driven decaying flow: adapted conceptually from BertovDev/cursor-shader-trail.
+// Dependency-free canvas fallback; not the original Three.js / WebGPU renderer.
+const canvas=document.querySelector('#trail'),ctx=canvas.getContext('2d');
+const displacement=document.querySelector('feDisplacementMap'),noise=document.querySelector('feTurbulence');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');let marks=[],last=null,energy=0,w=innerWidth,h=innerHeight,previous=0;
+function resize(){w=innerWidth;h=innerHeight;const d=Math.min(devicePixelRatio,2);canvas.width=w*d;canvas.height=h*d;ctx.setTransform(d,0,0,d,0,0)}resize();addEventListener('resize',resize);
+addEventListener('pointermove',e=>{if(reduced.matches)return;const now=performance.now();if(last){const dx=e.clientX-last.x,dy=e.clientY-last.y;const speed=Math.min(Math.hypot(dx,dy),50);energy=Math.min(30,energy+speed*.15);marks.push({x:e.clientX,y:e.clientY,dx,dy,life:1,speed});if(marks.length>100)marks.shift()}last={x:e.clientX,y:e.clientY,time:now}});
+addEventListener('pointerout',e=>{if(!e.relatedTarget)last=null});
+function frame(t){const dt=Math.min((t-previous)/16.67,3);previous=t;ctx.clearRect(0,0,w,h);if(!reduced.matches){energy*=Math.pow(.94,dt);displacement.setAttribute('scale',energy.toFixed(2));noise.setAttribute('baseFrequency',`.008 ${.018+Math.sin(t*.0004)*.001}`);marks=marks.filter(p=>p.life>.015);for(const p of marks){p.life*=Math.pow(.94,dt);p.x+=p.dx*.012*dt;p.y+=p.dy*.012*dt;const r=15+p.speed*.8;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(Math.atan2(p.dy,p.dx));for(let j=-2;j<=2;j++){ctx.strokeStyle=`rgba(255,48,24,${p.life*.22})`;ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(0,j*4,r*(1-p.life*.25),r*.3,0,0,Math.PI*2);ctx.stroke()}ctx.restore()}}requestAnimationFrame(frame)}requestAnimationFrame(frame);
